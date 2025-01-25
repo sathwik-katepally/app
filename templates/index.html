@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Page Translator</title>
+</head>
+<body>
+    <h1>Upload a Book Page</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Translate</button>
+    </form>
+    <div id="results">
+        <h2>Results:</h2>
+        <p><strong>Extracted Text:</strong> <span id="extracted"></span></p>
+        <p><strong>Translated Text:</strong> <span id="translated"></span></p>
+    </div>
+    <script>
+        document.getElementById('uploadForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/upload', { method: 'POST', body: formData });
+            const data = await response.json();
+            document.getElementById('extracted').innerText = data.extracted_text;
+            document.getElementById('translated').innerText = data.translated_text;
+        };
+    </script>
+</body>
+</html>
